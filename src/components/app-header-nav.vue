@@ -87,6 +87,7 @@ export default {
 }
 
 .layer {
+  z-index: 999;
   &.open {
     height: 132px;
     opacity: 1;
