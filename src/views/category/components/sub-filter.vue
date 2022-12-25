@@ -5,11 +5,11 @@
       <div class="body">
         <a
           @click="changeBrand(item.id)"
-          :class="{ active: brand.id === filterData.brands.selectedBrand }"
-          href="javasript:;"
-          v-for="brand in filterData.brands"
-          :key="brand.id"
-          >{{ brand.name }}</a
+          :class="{ active: item.id === filterData.selectedBrand }"
+          href="javascript:;"
+          v-for="item in filterData.brands"
+          :key="item.id"
+          >{{ item.name }}</a
         >
       </div>
     </div>
@@ -19,6 +19,7 @@
         <a
           @click="changeProp(item, prop.id)"
           :class="{ active: prop.id === item.selectedProp }"
+          href="javascript:;"
           v-for="prop in item.properties"
           :key="prop.id"
           >{{ prop.name }}</a
@@ -40,7 +41,7 @@ import { useRoute } from "vue-router";
 import { findSubCategoryFilter } from "@/api/category";
 export default {
   name: "SubFilter",
-  setup(prop, { emit }) {
+  setup(props, { emit }) {
     const route = useRoute();
     // 监听二级类目ID的变化获取筛选数据
     const filterData = ref(null);
@@ -48,15 +49,15 @@ export default {
     watch(
       () => route.params.id,
       (newVal) => {
-        // 变化后的ID有值，且处于二级类目路由下
+        // 变化后的ID有值 且 处在二级类名路由下
         if (newVal && `/category/sub/${newVal}` === route.path) {
           filterLoading.value = true;
           // 发请求获取数据
           findSubCategoryFilter(route.params.id).then((data) => {
-            // 每一组可选的筛选条件缺失 全部 条件，处理一下数据 加上全部
+            // 每一组可选的筛选条件缺失 全部 条件，处理下数据加上全部
             // 给每一组数据加上一个选中的ID
             // 1. 品牌
-            data.result.brands.selectedBrand = null;
+            data.result.selectedBrand = null;
             data.result.brands.unshift({ id: null, name: "全部" });
             // 2. 属性
             data.result.saleProperties.forEach((item) => {
@@ -86,7 +87,7 @@ export default {
           obj.attrs.push({ groupName: item.name, propertyName: prop.name });
         }
       });
-      // 参考数据： {brandId: '', attrs:[{groupName: '', propertyName: ''}, ...]}
+      // 参考数据：{brandId:'',attrs:[{groupName:'',propertyName:''},...]}
       if (obj.attrs.length === 0) obj.attrs = null;
       return obj;
     };
@@ -95,9 +96,9 @@ export default {
     const changeBrand = (brandId) => {
       if (filterData.value.selectedBrand === brandId) return;
       filterData.value.selectedBrand = brandId;
-      emit("filter-change");
+      emit("filter-change", getFilterParams());
     };
-    // 2.记录选择的销售属性
+    // 2. 记录呢选择的销售属性
     const changeProp = (item, propId) => {
       if (item.selectedProp === propId) return;
       item.selectedProp = propId;
@@ -133,8 +134,8 @@ export default {
       }
     }
   }
-}
-.xtx-skeleton {
-  padding: 10px 0;
+  .xtx-skeleton {
+    padding: 10px 0;
+  }
 }
 </style>

@@ -9,9 +9,9 @@
     </div>
   </div>
   <!-- 新鲜好物 -->
-  <HomeNew></HomeNew>
+  <HomeNew />
   <!-- 人气推荐 -->
-  <HomeHot></HomeHot>
+  <HomeHot />
   <!-- 热门品牌 -->
   <HomeBrand />
   <!-- 产品区块 -->
