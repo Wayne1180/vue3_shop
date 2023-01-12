@@ -11,7 +11,7 @@
           <li><a href="javascript:;">退出登录</a></li>
         </template>
         <template v-else>
-          <li><a href="javascript:;">请先登录</a></li>
+          <li><RouterLink to="/login">请先登录</RouterLink></li>
           <li><a href="javascript:;">免费注册</a></li>
         </template>
         <li><a href="javascript:;">我的订单</a></li>
@@ -25,7 +25,7 @@
     </div>
   </nav>
 </template>
-  <script>
+<script>
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 export default {
@@ -45,7 +45,7 @@ export default {
   },
 };
 </script>
-  <style scoped lang="less">
+<style scoped lang="less">
 .app-topnav {
   background: #333;
   ul {

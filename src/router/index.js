@@ -29,6 +29,9 @@ const routes = [
         component: Goods
       }
     ]
+  }, {
+    path: '/login',
+    component: () => import('@/views/login/index')
   }
 ]
 
