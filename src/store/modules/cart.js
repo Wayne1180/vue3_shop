@@ -3,7 +3,7 @@ import { checkAllCart, deleteCart, findCart, getNewCartGoods, insertCart, mergeC
 // 购物车模块
 export default {
   namespaced: true,
-  state () {
+  state() {
     return {
       // 购物车商品列表
       list: []
@@ -11,43 +11,43 @@ export default {
   },
   getters: {
     // 有效商品列表
-    validList (state) {
+    validList(state) {
       // 有效商品：库存大于0  stock  商品有效标识为  true  isEffective
       return state.list.filter(goods => goods.stock > 0 && goods.isEffective)
     },
     // 有效商品总件数
-    validTotal (state, getters) {
+    validTotal(state, getters) {
       return getters.validList.reduce((p, c) => p + c.count, 0)
     },
     // 有效商品总金额
-    validAmount (state, getters) {
+    validAmount(state, getters) {
       // return (getters.validList.reduce((p, c) => p + c.nowPrice * 100 * c.count, 0) / 100).toFixed(2)
       return getters.validList.reduce((p, c) => p + Math.round(c.nowPrice * 100) * c.count, 0) / 100
     },
     // 无效商品列表
-    invalidList (state) {
+    invalidList(state) {
       return state.list.filter(goods => goods.stock <= 0 || !goods.isEffective)
     },
     // 已选商品列表
-    selectedList (state, getters) {
+    selectedList(state, getters) {
       return getters.validList.filter(item => item.selected)
     },
     // 已选商品总件数
-    selectedTotal (state, getters) {
+    selectedTotal(state, getters) {
       return getters.selectedList.reduce((p, c) => p + c.count, 0)
     },
     // 已选商品总金额
-    selectedAmount (state, getters) {
+    selectedAmount(state, getters) {
       return getters.selectedList.reduce((p, c) => p + Math.round(c.nowPrice * 100) * c.count, 0) / 100
     },
     // 是否全选
-    isCheckAll (state, getters) {
+    isCheckAll(state, getters) {
       return getters.validList.length !== 0 && getters.selectedList.length === getters.validList.length
     }
   },
   mutations: {
     // 加入购物车
-    insertCart (state, payload) {
+    insertCart(state, payload) {
       // 约定加入购物车字段必须和后端保持一致 payload对象 的字段
       // 它们是：id skuId name attrsText picture price nowPrice selected stock count isEffective
       // 插入数据规则：
@@ -65,7 +65,7 @@ export default {
       state.list.unshift(payload)
     },
     // 修改购物车商品
-    updateCart (state, goods) {
+    updateCart(state, goods) {
       // goods 商品信息：nowPrice stock isEffective
       // goods 商品对象的字段不固定，对象中有哪些字段就改哪些字段，字段的值合理才改
       // goods 商品对象 必需有SKUID
@@ -77,19 +77,19 @@ export default {
       }
     },
     // 删除购物车商品
-    deleteCart (state, skuId) {
+    deleteCart(state, skuId) {
       const index = state.list.findIndex(item => item.skuId === skuId)
       state.list.splice(index, 1)
     },
     // 设置购物车
-    setCart (state, payload) {
+    setCart(state, payload) {
       // payload 为空数组，清空。为又值数组，设置。
       state.list = payload
     }
   },
   actions: {
     // 合并购物车
-    async mergeCart (ctx) {
+    async mergeCart(ctx) {
       // 准备合并的参数
       const cartList = ctx.state.list.map(goods => {
         return {
@@ -103,7 +103,7 @@ export default {
       ctx.commit('setCart', [])
     },
     // 修改规格
-    updateCartSku (ctx, { oldSkuId, newSku }) {
+    updateCartSku(ctx, { oldSkuId, newSku }) {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已登录
@@ -136,7 +136,7 @@ export default {
       })
     },
     // 批量删除
-    batchDeleteCart (ctx, isClear) {
+    batchDeleteCart(ctx, isClear) {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已登录
@@ -159,7 +159,7 @@ export default {
       })
     },
     // 全选与取消全选
-    checkAllCart (ctx, selected) {
+    checkAllCart(ctx, selected) {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已登录
@@ -180,7 +180,7 @@ export default {
       })
     },
     // 修改购物车（选中状态，数量）
-    updateCart (ctx, payload) {
+    updateCart(ctx, payload) {
       // payload 需要：必需有skuId  可能：selected  count
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
@@ -199,7 +199,7 @@ export default {
       })
     },
     // 删除购物车
-    deleteCart (ctx, payload) {
+    deleteCart(ctx, payload) {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已登录
@@ -218,7 +218,7 @@ export default {
       })
     },
     // 加入购物车
-    insertCart (ctx, payload) {
+    insertCart(ctx, payload) {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已登录
@@ -236,7 +236,7 @@ export default {
       })
     },
     // 获取商品列表
-    findCart (ctx) {
+    findCart(ctx) {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已登录

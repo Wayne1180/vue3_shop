@@ -22,6 +22,7 @@ module.exports = {
 
     // 开启IP域名访问
     config.devServer.disableHostCheck(true)
+    config.resolve.symlinks(true)
   },
   configureWebpack: {
     externals: {

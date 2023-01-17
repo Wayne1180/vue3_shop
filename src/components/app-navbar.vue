@@ -8,7 +8,7 @@
               ><i class="iconfont icon-user"></i>{{ profile.account }}</a
             >
           </li>
-          <li><a href="javascript:;">退出登录</a></li>
+          <li @click="logout"><a href="javascript:;">退出登录</a></li>
         </template>
         <template v-else>
           <li><RouterLink to="/login">请先登录</RouterLink></li>
@@ -39,8 +39,15 @@ export default {
     const profile = computed(() => {
       return store.state.user.profile;
     });
+    const logout = () => {
+      store.commit("user/setUser", {});
+      // 清空购物车
+      store.commit("cart/setCart", []);
+      router.push("/login");
+    };
     return {
       profile,
+      logout,
     };
   },
 };

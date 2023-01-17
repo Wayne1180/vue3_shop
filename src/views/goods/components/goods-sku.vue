@@ -24,7 +24,6 @@
 </template>
 <script>
 import powerSet from "@/vender/power-set";
-import { emit } from "process";
 const spliter = "★";
 // 得到一个路径字典对象
 const getPathMap = (skus) => {
